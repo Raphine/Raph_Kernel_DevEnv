@@ -1,0 +1,11 @@
+sshの鍵(ファイル名：raph_rsa)を置く
+
+以下を実行する
+docker build -t raphine/kernel .
+docker run -it raphine/kernel /bin/bash
+
+
+ちなみに、全てのcontainerを消すには
+docker rm `docker ps -a -q`
+イメージを消すには
+docker rmi <image name>
