@@ -1,6 +1,0 @@
-Host raphine
-     Hostname is2015.hermite.jp
-     PreferredAuthentications publickey
-     IdentityFile ~/.ssh/raph_rsa
-     StrictHostKeyChecking no
-     

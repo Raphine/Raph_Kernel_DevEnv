@@ -1,11 +1,9 @@
-sshの鍵(ファイル名：raph_rsa)を置く
+初期化
+vagrant up
 
-以下を実行する
-docker build -t raphine/kernel .
-docker run -it raphine/kernel /bin/bash
+起動
+vagrant ssh
 
 
-ちなみに、全てのcontainerを消すには
-docker rm `docker ps -a -q`
-イメージを消すには
-docker rmi <image name>
+sshの鍵を置いて、cloneする所は自分でやる
+
