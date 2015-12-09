@@ -11,7 +11,7 @@ wget http://wiki.qemu-project.org/download/qemu-2.4.1.tar.bz2
 tar xvf qemu-2.4.1.tar.bz2
 mkdir build-qemu
 cd build-qemu
-../qemu-2.4.1/configure --target-list=x86_64-softmmu --disable-kvm
+../qemu-2.4.1/configure --target-list=x86_64-softmmu --disable-kvm --enable-debug
 make
 sudo make install
 cd ..
