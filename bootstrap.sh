@@ -17,7 +17,7 @@ make install
 cd ..
 
 # setup bridge initialize script
-sed -e 's/exit 0//g' /etc/rc.local
+sed -i -e 's/exit 0//g' /etc/rc.local
 echo -e "ifconfig eth0 down\nifconfig eth0 up\nip addr flush dev eth0\nbrctl addbr br0\nbrctl stp br0 off\nbrctl setfd br0 0\nbrctl addif br0 eth0\nifconfig br0 up\ndhclient br0\nexit 0\n" >> /etc/rc.local
 
 date > /etc/bootstrapped
