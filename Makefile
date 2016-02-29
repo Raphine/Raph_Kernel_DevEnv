@@ -3,7 +3,8 @@ VDI = disk.vdi
 
 .PHONY: conv
 
-vboxrun:
+vboxrun: vboxkill
+	vagrant ssh -c "cd Raph_Kernel; make cpimg"
 	-vboxmanage unregistervm RK_Test --delete
 	-rm $(VDI)
 	vboxmanage createvm --name RK_Test --register
@@ -12,6 +13,9 @@ vboxrun:
 	vboxmanage storagectl RK_Test --name SATAController --add sata --controller IntelAHCI --bootable on
 	vboxmanage storageattach RK_Test --storagectl SATAController --port 0 --device 0 --type hdd --medium disk.vdi
 	vboxmanage startvm RK_Test --type gui
+
+vboxkill:
+	-vboxmanage controlvm RK_Test poweroff
 
 # only for Mac
 vnc:

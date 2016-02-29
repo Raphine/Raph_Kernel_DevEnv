@@ -30,4 +30,6 @@ echo "dhclient br0" >> /etc/rc.local
 echo "exit 0" >> /etc/rc.local
 /etc/rc.local
 
+echo "allow br0" > /usr/local/etc/qemu/bridge.conf
+
 date > /etc/bootstrapped
