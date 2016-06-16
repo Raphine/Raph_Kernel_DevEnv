@@ -2,7 +2,7 @@
 test -f /etc/bootstrapped && exit
 
 apt-get update
-apt-get install -y git g++ make cmake parted emacs language-pack-ja-base language-pack-ja kpartx gdb bridge-utils
+apt-get install -y git g++ make parted emacs language-pack-ja-base language-pack-ja kpartx gdb bridge-utils
 update-locale LANG=ja_JP.UTF-8 LANGUAGE="ja_JP:ja"
 
 # install qemu
@@ -15,16 +15,6 @@ cd build-qemu
 make
 make install
 cd ..
-
-# install yaml-cpp
-git clone git@github.com:jbeder/yaml-cpp.git
-cd yaml-cpp
-mkdir build
-cd build
-cmake ..
-make
-make install
-cd ../..
 
 # setup bridge initialize script
 sed -i -e 's/exit 0//g' /etc/rc.local
