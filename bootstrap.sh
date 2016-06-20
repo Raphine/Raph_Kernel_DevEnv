@@ -2,7 +2,7 @@
 test -f /etc/bootstrapped && exit
 
 apt-get update
-apt-get install -y git g++ make parted emacs language-pack-ja-base language-pack-ja kpartx gdb bridge-utils
+apt-get install -y git g++ make parted emacs language-pack-ja-base language-pack-ja kpartx gdb bridge-utils libyaml-devel
 update-locale LANG=ja_JP.UTF-8 LANGUAGE="ja_JP:ja"
 
 # install qemu
