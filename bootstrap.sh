@@ -2,7 +2,7 @@
 test -f /etc/bootstrapped && exit
 
 apt-get update
-apt-get install -y git g++ make parted emacs language-pack-ja-base language-pack-ja kpartx gdb bridge-utils libyaml-devel
+apt-get install -y git g++ make parted emacs language-pack-ja-base language-pack-ja kpartx gdb bridge-utils libyaml-dev
 update-locale LANG=ja_JP.UTF-8 LANGUAGE="ja_JP:ja"
 
 # install qemu
@@ -15,6 +15,10 @@ cd build-qemu
 make
 make install
 cd ..
+
+curl -sSf https://static.rust-lang.org/rustup.sh | sh
+echo -e "export PATH=\$PATH:~/.cargo/bin\n" >> ~/.bashrc
+cargo install rustfmt
 
 # setup bridge initialize script
 sed -i -e 's/exit 0//g' /etc/rc.local
