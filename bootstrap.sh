@@ -16,8 +16,8 @@ make
 make install
 cd ..
 
-sudo -u vagrant curl -sSf https://static.rust-lang.org/rustup.sh | sh
-echo -e "export PATH=\$PATH:~/.cargo/bin\n" >> ~/.bashrc
+(sudo -u vagrant curl -sSf https://static.rust-lang.org/rustup.sh | sh) || return 0
+echo -e "export PATH=\$PATH:~/.cargo/bin\n" >> /home/vagrant/.bashrc
 sudo -u vagrant cargo install rustfmt
 
 # setup bridge initialize script
