@@ -1,6 +1,17 @@
 IMAGE = disk.img
 VDI = disk.vdi
 
+UNAME = ${shell uname}
+ifeq ($(OS),Windows_NT)
+	VNC = @echo windows is not supported; exit 1
+else ifeq ($(UNAME),Linux)
+	VNC = vncviewer localhost::15900
+else ifeq ($(UNAME),Darwin)
+	VNC = open vnc://localhost:15900
+else
+	VNC = @echo non supported OS; exit 1
+endif
+
 .PHONY: conv
 
 vboxrun: vboxkill
@@ -17,6 +28,6 @@ vboxrun: vboxkill
 vboxkill:
 	-vboxmanage controlvm RK_Test poweroff
 
-# only for Mac
 vnc:
-	open vnc://localhost:15900
+	@echo vnc password is "a"
+	$(VNC)
