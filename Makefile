@@ -27,8 +27,7 @@ vboxrun: vboxkill
 
 run_pxeserver:
 	make update_pxeimg
-	cd net
-	python -m SimpleHTTPServer 8080
+	cd net; python -m SimpleHTTPServer 8080
 
 update_pxeimg:
 	@vagrant ssh -c "cd Raph_Kernel; make cpimg"
