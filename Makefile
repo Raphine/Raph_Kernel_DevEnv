@@ -26,6 +26,7 @@ vboxrun: vboxkill
 	vboxmanage startvm RK_Test --type gui
 
 run_pxeserver:
+	make update_pxeimg
 	cd net
 	python -m SimpleHTTPServer 8080
 
