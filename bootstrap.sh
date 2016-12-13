@@ -16,6 +16,25 @@ make -j2
 make install
 cd ..
 
+# install grub
+sudo apt-get install -y autoconf bison flex libdevmapper-dev
+wget http://alpha.gnu.org/gnu/grub/grub-2.02~beta3.tar.gz
+tar zxvf grub-2.02~beta3.tar.gz
+cd grub-2.02~beta3
+./autogen.sh
+./configure
+make
+sudo make install
+cd ..
+
+# install iPXE
+sudo apt-get install -y build-essential binutils-dev zlib1g-dev libiberty-dev
+git clone git://git.ipxe.org/ipxe.git
+cd ipxe/
+make bin-x86_64-pcbios/ipxe.usb
+cd ../
+
+# install rust
 (curl -sSf https://static.rust-lang.org/rustup.sh | sh) || return 0
 echo "export PATH=\$PATH:~/.cargo/bin\n" >> /home/vagrant/.bashrc
 cargo install rustfmt --verbose
