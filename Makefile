@@ -25,18 +25,20 @@ vboxrun: vboxkill
 	vboxmanage storageattach RK_Test --storagectl SATAController --port 0 --device 0 --type hdd --medium disk.vdi
 	vboxmanage startvm RK_Test --type gui
 
+run_pxeserver:
+	cd net
+	python -m SimpleHTTPServer 8080
 
-
-updatepxeimg:
+update_pxeimg:
 	@vagrant ssh -c "cd Raph_Kernel; make cpimg"
 	gzip $(IMAGE)
 	mv $(IMAGE).gz net/
 
-burnipxe:
+burn_ipxe:
 	./lan.sh local
 	@vagrant ssh -c "cp /vagrant/load.cfg ipxe/; cd ipxe/src; make bin-x86_64-pcbios/ipxe.usb EMBED=../load.cfg; if [ ! -e /dev/sdb ]; then echo 'error: insert usb memory!'; exit -1; fi; sudo dd if=bin-x86_64-pcbios/ipxe.usb of=/dev/sdb"
 
-burnipxe_remote:
+burn_ipxe_remote:
 	./lan.sh remote
 	@vagrant ssh -c "cp /vagrant/load.cfg ipxe/; cd ipxe/src; make bin-x86_64-pcbios/ipxe.usb EMBED=../load.cfg; if [ ! -e /dev/sdb ]; then echo 'error: insert usb memory!'; exit -1; fi; sudo dd if=bin-x86_64-pcbios/ipxe.usb of=/dev/sdb"
 
