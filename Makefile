@@ -25,14 +25,19 @@ vboxrun: vboxkill
 	vboxmanage storageattach RK_Test --storagectl SATAController --port 0 --device 0 --type hdd --medium disk.vdi
 	vboxmanage startvm RK_Test --type gui
 
+
+
 updatepxeimg:
 	@vagrant ssh -c "cd Raph_Kernel; make cpimg"
 	gzip $(IMAGE)
 	mv $(IMAGE).gz net/
 
 burnipxe:
-# TODO check sdb existence
-	./lan.sh
+	./lan.sh local
+	@vagrant ssh -c "cp /vagrant/load.cfg ipxe/; cd ipxe/src; make bin-x86_64-pcbios/ipxe.usb EMBED=../load.cfg; if [ ! -e /dev/sdb ]; then echo 'error: insert usb memory!'; exit -1; fi; sudo dd if=bin-x86_64-pcbios/ipxe.usb of=/dev/sdb"
+
+burnipxe_remote:
+	./lan.sh remote
 	@vagrant ssh -c "cp /vagrant/load.cfg ipxe/; cd ipxe/src; make bin-x86_64-pcbios/ipxe.usb EMBED=../load.cfg; if [ ! -e /dev/sdb ]; then echo 'error: insert usb memory!'; exit -1; fi; sudo dd if=bin-x86_64-pcbios/ipxe.usb of=/dev/sdb"
 
 vboxkill:
