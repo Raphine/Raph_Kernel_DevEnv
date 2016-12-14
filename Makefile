@@ -27,6 +27,7 @@ vboxrun: vboxkill
 
 run_pxeserver:
 	make update_pxeimg
+	@echo info: allow port 8080 in your firewall settings
 	cd net; python -m SimpleHTTPServer 8080
 
 update_pxeimg:
@@ -46,5 +47,5 @@ vboxkill:
 	-vboxmanage controlvm RK_Test poweroff
 
 vnc:
-	@echo vnc password is "a"
+	@echo info: vnc password is "a"
 	$(VNC)
