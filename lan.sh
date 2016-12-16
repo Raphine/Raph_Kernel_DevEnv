@@ -13,10 +13,10 @@ fi
 if [ $1 = "local" ]; then
     j=""
     num=0
-    result=`ifconfig -a | sed 's/[ \t].*//;/^\(lo\|\)$/d'`
+    result=`ifconfig | expand | cut -c1-8 | sort | uniq -u | awk -F: '{print $1;}'`
     for i in $result
     do
-        tmp=`LANG=C ifconfig $i | awk '/inet addr/{print substr($2,6)}'`
+        tmp=`LANG=C ifconfig $i | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'`
         if [ -z "$tmp" ]; then
             continue
         fi
@@ -37,12 +37,8 @@ if [ $1 = "local" ]; then
         done
     fi
 
-    host=`LANG=C ifconfig $j | awk '/inet addr/{print substr($2,6)}'`
+    host=`LANG=C ifconfig $j | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'`
     setup $host
 fi
-
-
-
-
 
 
