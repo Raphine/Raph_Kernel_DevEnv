@@ -13,7 +13,7 @@ mkdir build-qemu
 cd build-qemu
 ../qemu-2.4.1/configure --target-list=x86_64-softmmu --disable-kvm --enable-debug
 make -j2
-make install
+sudo make install
 cd ..
 
 # install grub
