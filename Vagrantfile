@@ -32,6 +32,7 @@ Vagrant.configure(2) do |config|
     vb.cpus = 2
     vb.customize [
       "modifyvm", :id,
+      "--nictype1", "virtio",
       "--natdnshostresolver1", "on",
       "--hwvirtex", "on",
       "--nestedpaging", "on",

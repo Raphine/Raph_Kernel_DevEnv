@@ -57,3 +57,5 @@ sudo mkdir /usr/local/etc/qemu
 sudo sh -c 'echo "allow br0" > /usr/local/etc/qemu/bridge.conf'
 
 sudo sh -c 'date > /etc/bootstrapped'
+
+echo "setup done!"
