@@ -15,7 +15,7 @@ endif
 .PHONY: conv
 
 vboxrun: vboxkill
-	vagrant ssh -c "cd Raph_Kernel; make cpimg"
+	@vagrant ssh -c "cd Raph_Kernel; make cpimg"
 	-vboxmanage unregistervm RK_Test --delete
 	-rm $(VDI)
 	vboxmanage createvm --name RK_Test --register
@@ -25,9 +25,27 @@ vboxrun: vboxkill
 	vboxmanage storageattach RK_Test --storagectl SATAController --port 0 --device 0 --type hdd --medium disk.vdi
 	vboxmanage startvm RK_Test --type gui
 
+run_pxeserver:
+	make update_pxeimg
+	@echo info: allow port 8080 in your firewall settings
+	cd net; python -m SimpleHTTPServer 8080
+
+update_pxeimg:
+	@vagrant ssh -c "cd Raph_Kernel; make cpimg"
+	gzip $(IMAGE)
+	mv $(IMAGE).gz net/
+
+burn_ipxe:
+	./lan.sh local
+	@vagrant ssh -c "cp /vagrant/load.cfg ipxe/; cd ipxe/src; make bin-x86_64-pcbios/ipxe.usb EMBED=../load.cfg; if [ ! -e /dev/sdb ]; then echo 'error: insert usb memory!'; exit -1; fi; sudo dd if=bin-x86_64-pcbios/ipxe.usb of=/dev/sdb"
+
+burn_ipxe_remote:
+	./lan.sh remote
+	@vagrant ssh -c "cp /vagrant/load.cfg ipxe/; cd ipxe/src; make bin-x86_64-pcbios/ipxe.usb EMBED=../load.cfg; if [ ! -e /dev/sdb ]; then echo 'error: insert usb memory!'; exit -1; fi; sudo dd if=bin-x86_64-pcbios/ipxe.usb of=/dev/sdb"
+
 vboxkill:
 	-vboxmanage controlvm RK_Test poweroff
 
 vnc:
-	@echo vnc password is "a"
+	@echo info: vnc password is "a"
 	$(VNC)

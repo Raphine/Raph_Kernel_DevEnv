@@ -13,8 +13,9 @@ Vagrant.configure(2) do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = "ubuntu14.04"
+  config.vm.box_check_update = false
   config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
-  config.vm.provision :shell, :path => "bootstrap.sh", :privileged   => true
+  config.vm.provision :shell, :path => "bootstrap.sh", :privileged   => false
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -27,8 +28,19 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 5900, host: 15900
 
   config.vm.provider :virtualbox do |vb|
-    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-    vb.customize ["modifyvm", :id, "--memory", "1024"]
+    vb.memory = 2048
+    vb.cpus = 2
+    vb.customize [
+      "modifyvm", :id,
+      "--nictype1", "virtio",
+      "--natdnshostresolver1", "on",
+      "--hwvirtex", "on",
+      "--nestedpaging", "on",
+      "--largepages", "on",
+      "--ioapic", "on",
+      "--pae", "on",
+      "--paravirtprovider", "kvm",
+    ]
   end
 
   # Create a private network, which allows host-only access to the machine
