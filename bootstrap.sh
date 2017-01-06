@@ -23,6 +23,7 @@ sudo -u vagrant cargo install rustfmt
 # make & install musl with CFLAGS="-fpie -fPIE"
 git clone git://git.musl-libc.org/musl
 cd musl
+git checkout refs/tags/v1.1.16
 export CFLAGS="-fpie -fPIE"
 ./configure
 unset CFLAGS
