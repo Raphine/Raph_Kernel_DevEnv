@@ -39,6 +39,17 @@ cd ../
 echo "export PATH=\$PATH:~/.cargo/bin\n" >> /home/vagrant/.bashrc
 cargo install rustfmt --verbose
 
+# make & install musl with CFLAGS="-fpie -fPIE"
+git clone git://git.musl-libc.org/musl
+cd musl
+git checkout refs/tags/v1.1.16
+export CFLAGS="-fpie -fPIE"
+./configure
+unset CFLAGS
+make
+sudo make install
+cd ..
+
 # setup bridge initialize script
 sudo sed -i -e 's/exit 0//g' /etc/rc.local
 sudo sh -c 'echo "ifconfig eth0 down" >> /etc/rc.local'
